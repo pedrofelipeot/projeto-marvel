@@ -1,8 +1,7 @@
 # MERX Energia - Teste Prático TI 2025 🚀
 
-Este projeto consome a **Marvel Comics API** e exibe uma interface moderna e intuitiva para listar personagens, visualizar detalhes e aplicar filtros de pesquisa.
+Este projeto consome a **Marvel Comics API** para listar personagens, visualizar detalhes e aplicar filtros de pesquisa.
 
-🗕️ **Prazo de entrega:** 20/07/2025\
 📌 **Autor:** Pedro Felipe
 
 ---
@@ -30,10 +29,8 @@ Este projeto consome a **Marvel Comics API** e exibe uma interface moderna e int
 ✔️ **Modal de detalhes** ao clicar em um personagem\
 ✔️ **Search input** para buscar personagens por nome\
 ✔️ **Filtros adicionais:**
-
-- Por série (Avengers, X-Men, etc.)
-- Por ordem de data que foi inserida na API (no mock são datas fictícias)
-- 
+   - Por série (Avengers, X-Men, etc.)
+   - Por ordem de data que foi inserida na API (no mock são datas fictícias)
 ---
 
 ## 📦 Instalação e Execução
