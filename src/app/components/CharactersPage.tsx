@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { fetchMarvelCharacters } from '../lib/marvelApi';
 import CharacterCard from './CharacterCard';
 import CharacterModal from './CharacterModal';
@@ -22,18 +22,18 @@ export default function CharactersPage() {
     return null;
   }
 
-  const loadCharacters = async () => {
+  const loadCharacters = useCallback(async () => {
     const modifiedSince = getModifiedSinceDate();
     const data = await fetchMarvelCharacters(search, seriesFilter, modifiedSince);
     let results: Character[] = data.data.results;
 
     if (seriesFilter) {
-      results = results.filter((char) => {
-        return char.series?.items?.some((serie) => {
+      results = results.filter((char) =>
+        char.series?.items?.some((serie) => {
           const seriesId = serie.resourceURI.split('/').pop();
           return seriesId === seriesFilter;
-        });
-      });
+        })
+      );
     }
 
     if (modifiedFilter === 'recent') {
@@ -51,11 +51,11 @@ export default function CharactersPage() {
     }
 
     setCharacters(results);
-  };
+  }, [search, seriesFilter, modifiedFilter]);
 
   useEffect(() => {
     loadCharacters();
-  }, [search, seriesFilter, modifiedFilter]);
+  }, [loadCharacters]);
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-black via-gray-900 to-marvelBlack text-marvelWhite select-none">
@@ -127,12 +127,7 @@ export default function CharactersPage() {
         </div>
       </main>
 
-      {selected && (
-        <CharacterModal
-          character={selected}
-          onClose={() => setSelected(null)}
-        />
-      )}
+      {selected && <CharacterModal character={selected} onClose={() => setSelected(null)} />}
 
       <footer className="w-full py-6 mt-12 bg-[#0d0d0d] text-center text-sm text-marvelWhite/70 select-none">
         <div className="max-w-6xl mx-auto px-8">
