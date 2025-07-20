@@ -1,7 +1,8 @@
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
-  /* config options here */
+const nextConfig = {
+  env: {
+    MARVEL_PUBLIC_KEY: process.env.MARVEL_PUBLIC_KEY,
+    USE_MOCK: process.env.USE_MOCK,
+  },
 };
 
-export default nextConfig;
+module.exports = nextConfig;

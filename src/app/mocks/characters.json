@@ -1,0 +1,380 @@
+{
+  "data": {
+    "results": [
+      {
+        "id": 1010782,
+        "name": "Black Widow",
+        "description": "Agente secreta altamente treinada e habilidosa.",
+        "thumbnail": {
+          "path": "https://i.annihil.us/u/prod/marvel/i/mg/5/a0/52f0f2aacf934",
+          "extension": "jpg"
+        },
+        "series": {
+          "available": 2,
+          "items": [
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/series/354",
+              "name": "Avengers"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/series/9086",
+              "name": "Black Widow Series"
+            }
+          ]
+        },
+        "events": {
+          "available": 1,
+          "items": [
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/events/116",
+              "name": "Civil War"
+            }
+          ]
+        },
+        "comics": {
+          "available": 15
+        }
+      },
+      {
+        "id": 1010338,
+        "name": "Doctor Strange",
+        "description": "Mago Supremo e defensor da Terra.",
+        "thumbnail": {
+          "path": "https://i.annihil.us/u/prod/marvel/i/mg/d/03/523217dccbfe7",
+          "extension": "jpg"
+        },
+        "series": {
+          "available": 3,
+          "items": [
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/series/354",
+              "name": "Avengers"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/series/1842",
+              "name": "Doctor Strange Series"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/series/363",
+              "name": "Fantastic Four"
+            }
+          ]
+        },
+        "events": {
+          "available": 2,
+          "items": [
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/events/314",
+              "name": "Infinity War"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/events/240",
+              "name": "House of M"
+            }
+          ]
+        },
+        "comics": {
+          "available": 40
+        }
+      },
+      {
+        "id": 1009368,
+        "name": "Iron Man",
+        "description": "Gênio bilionário que usa uma armadura de alta tecnologia.",
+        "thumbnail": {
+          "path": "https://i.annihil.us/u/prod/marvel/i/mg/9/c0/527bb7b37ff55",
+          "extension": "jpg"
+        },
+        "series": {
+          "available": 4,
+          "items": [
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/series/354",
+              "name": "Avengers"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/series/363",
+              "name": "Fantastic Four"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/series/1842",
+              "name": "Iron Man Series"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/series/9086",
+              "name": "X-Men"
+            }
+          ]
+        },
+        "events": {
+          "available": 3,
+          "items": [
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/events/116",
+              "name": "Civil War"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/events/314",
+              "name": "Infinity War"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/events/240",
+              "name": "House of M"
+            }
+          ]
+        },
+        "comics": {
+          "available": 120
+        }
+      }
+      ,
+{
+  "id": 1010734,
+  "name": "Vision",
+  "description": "Android com inteligência artificial avançada.",
+  "thumbnail": {
+    "path": "https://i.annihil.us/u/prod/marvel/i/mg/6/50/526028753a1b2",
+    "extension": "jpg"
+  },
+  "series": {
+    "available": 2,
+    "items": [
+      {
+        "resourceURI": "https://gateway.marvel.com/v1/public/series/354",
+        "name": "Avengers"
+      },
+      {
+        "resourceURI": "https://gateway.marvel.com/v1/public/series/9086",
+        "name": "Vision Series"
+      }
+    ]
+  },
+  "events": {
+    "available": 1,
+    "items": [
+      {
+        "resourceURI": "https://gateway.marvel.com/v1/public/events/116",
+        "name": "Civil War"
+      }
+    ]
+  },
+  "comics": { "available": 22 }
+},
+{
+  "id": 1009220,
+  "name": "Captain America",
+  "description": "Símbolo de liberdade e justiça, guerreiro da Segunda Guerra.",
+  "thumbnail": {
+    "path": "https://i.annihil.us/u/prod/marvel/i/mg/9/03/531772d4ef9bf",
+    "extension": "jpg"
+  },
+  "series": {
+    "available": 4,
+    "items": [
+      {
+        "resourceURI": "https://gateway.marvel.com/v1/public/series/354",
+        "name": "Avengers"
+      },
+      {
+        "resourceURI": "https://gateway.marvel.com/v1/public/series/123",
+        "name": "Captain America Series"
+      },
+      {
+        "resourceURI": "https://gateway.marvel.com/v1/public/series/9086",
+        "name": "Winter Soldier"
+      },
+      {
+        "resourceURI": "https://gateway.marvel.com/v1/public/series/555",
+        "name": "Civil War"
+      }
+    ]
+  },
+  "events": {
+    "available": 2,
+    "items": [
+      {
+        "resourceURI": "https://gateway.marvel.com/v1/public/events/116",
+        "name": "Civil War"
+      },
+      {
+        "resourceURI": "https://gateway.marvel.com/v1/public/events/345",
+        "name": "Secret Invasion"
+      }
+    ]
+  },
+  "comics": { "available": 50 }
+},
+{
+  "id": 1009271,
+  "name": "Hulk",
+  "description": "Bruce Banner se torna uma criatura de força descomunal.",
+  "thumbnail": {
+    "path": "https://i.annihil.us/u/prod/marvel/i/mg/5/a0/538615ca33ab0",
+    "extension": "jpg"
+  },
+  "series": {
+    "available": 3,
+    "items": [
+      {
+        "resourceURI": "https://gateway.marvel.com/v1/public/series/789",
+        "name": "Hulk Series"
+      },
+      {
+        "resourceURI": "https://gateway.marvel.com/v1/public/series/354",
+        "name": "Avengers"
+      },
+      {
+        "resourceURI": "https://gateway.marvel.com/v1/public/series/9086",
+        "name": "World War Hulk"
+      }
+    ]
+  },
+  "events": {
+    "available": 2,
+    "items": [
+      {
+        "resourceURI": "https://gateway.marvel.com/v1/public/events/345",
+        "name": "Secret Invasion"
+      },
+      {
+        "resourceURI": "https://gateway.marvel.com/v1/public/events/240",
+        "name": "House of M"
+      }
+    ]
+  },
+  "comics": { "available": 70 }
+},
+{
+  "id": 1009351,
+  "name": "Deadpool",
+  "description": "Mercenário tagarela com fator de cura acelerado.",
+  "thumbnail": {
+    "path": "https://i.annihil.us/u/prod/marvel/i/mg/6/40/52221517229d9",
+    "extension": "jpg"
+  },
+  "series": {
+    "available": 1,
+    "items": [
+      {
+        "resourceURI": "https://gateway.marvel.com/v1/public/series/787",
+        "name": "Deadpool Series"
+      }
+    ]
+  },
+  "events": {
+    "available": 0,
+    "items": []
+  },
+  "comics": { "available": 25 }
+},
+{
+  "id": 1009610,
+  "name": "Spider-Man",
+  "description": "Adquiriu poderes após ser picado por uma aranha radioativa.",
+  "thumbnail": {
+    "path": "https://i.annihil.us/u/prod/marvel/i/mg/3/20/5232158de5b16",
+    "extension": "jpg"
+  },
+  "series": {
+    "available": 5,
+    "items": [
+      {
+        "resourceURI": "https://gateway.marvel.com/v1/public/series/123",
+        "name": "Amazing Spider-Man"
+      },
+      {
+        "resourceURI": "https://gateway.marvel.com/v1/public/series/354",
+        "name": "Avengers"
+      },
+      {
+        "resourceURI": "https://gateway.marvel.com/v1/public/series/9086",
+        "name": "Spider-Verse"
+      },
+      {
+        "resourceURI": "https://gateway.marvel.com/v1/public/series/432",
+        "name": "Ultimate Spider-Man"
+      },
+      {
+        "resourceURI": "https://gateway.marvel.com/v1/public/series/876",
+        "name": "Spider-Man 2099"
+      }
+    ]
+  },
+  "events": {
+    "available": 3,
+    "items": [
+      {
+        "resourceURI": "https://gateway.marvel.com/v1/public/events/116",
+        "name": "Civil War"
+      },
+      {
+        "resourceURI": "https://gateway.marvel.com/v1/public/events/314",
+        "name": "Infinity War"
+      },
+      {
+        "resourceURI": "https://gateway.marvel.com/v1/public/events/345",
+        "name": "Secret Invasion"
+      }
+    ]
+  },
+  "comics": { "available": 100 }
+},
+{
+  "id": 1010699,
+  "name": "Machine Man",
+  "description": "Robô sentiente originalmente conhecido como Aaron Stack.",
+  "thumbnail": {
+    "path": "https://i.annihil.us/u/prod/marvel/i/mg/b/70/4ceb2c3ed5a6",
+    "extension": "jpg"
+  },
+  "series": {
+    "available": 1,
+    "items": [
+      {
+        "resourceURI": "https://gateway.marvel.com/v1/public/series/909",
+        "name": "Machine Man Series"
+      }
+    ]
+  },
+  "events": {
+    "available": 0,
+    "items": []
+  },
+  "comics": { "available": 5 }
+},
+{
+  "id": 1011266,
+  "name": "Ms. Marvel",
+  "description": "Kamala Khan ganha poderes de elasticidade.",
+  "thumbnail": {
+    "path": "https://i.annihil.us/u/prod/marvel/i/mg/2/03/62420e5a9a2ff",
+    "extension": "jpg"
+  },
+  "series": {
+    "available": 2,
+    "items": [
+      {
+        "resourceURI": "https://gateway.marvel.com/v1/public/series/777",
+        "name": "Ms. Marvel Series"
+      },
+      {
+        "resourceURI": "https://gateway.marvel.com/v1/public/series/354",
+        "name": "Avengers"
+      }
+    ]
+  },
+  "events": {
+    "available": 1,
+    "items": [
+      {
+        "resourceURI": "https://gateway.marvel.com/v1/public/events/999",
+        "name": "Secret Wars"
+      }
+    ]
+  },
+  "comics": { "available": 30 }
+}
+
+    ]
+  }
+}
