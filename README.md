@@ -47,7 +47,7 @@ Este projeto consome a **Marvel Comics API** e exibe uma interface moderna e int
 
 1. Clone o repositório:
    ```bash
-   git clone [https://github.com/pedrofelipeot/projeto-marvel.git](https://github.com/pedrofelipeot/projeto-marvel.git)
+     git clone https://github.com/pedrofelipeot/projeto-marvel.git
    ```
     ```bash
    cd projeto-marvel
