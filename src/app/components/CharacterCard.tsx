@@ -1,14 +1,21 @@
 export default function CharacterCard({ character }: { character: any }) {
   const { name, thumbnail } = character;
 
+  const imageUrl = thumbnail.path.endsWith('.jpg') || thumbnail.path.endsWith('.png')
+    ? thumbnail.path
+    : `${thumbnail.path}/standard_fantastic.${thumbnail.extension}`;
+
   return (
-    <div className="bg-marvelBlack rounded-2xl shadow-lg hover:scale-105 hover:shadow-2xl transition-transform duration-300 cursor-pointer overflow-hidden">
+    <div className="bg-gradient-to-br from-red-900 via-black to-black rounded-3xl shadow-lg overflow-hidden border-4 border-red-700 hover:border-yellow-400 transition-all duration-300">
       <img
-        src={`${thumbnail.path}/standard_fantastic.${thumbnail.extension}`}
+        src={imageUrl}
         alt={name}
-        className="w-full h-48 object-cover"
+        className="w-full h-56 object-cover rounded-t-3xl"
+        loading="lazy"
       />
-      <h2 className="font-bold text-center text-lg py-2 text-marvelWhite">{name}</h2>
+      <h2 className="font-bold text-center text-xl py-3 text-yellow-400 drop-shadow-md select-text">
+        {name}
+      </h2>
     </div>
   );
 }

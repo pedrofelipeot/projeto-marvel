@@ -8,85 +8,145 @@ export default function CharactersPage() {
   const [characters, setCharacters] = useState<any[]>([]);
   const [search, setSearch] = useState('');
   const [seriesFilter, setSeriesFilter] = useState<string | null>(null);
-  const [eventFilter, setEventFilter] = useState<string | null>(null);
-  const [appearanceFilter, setAppearanceFilter] = useState<string | null>(null);
+  const [modifiedFilter, setModifiedFilter] = useState<string>('all');
   const [selected, setSelected] = useState<any | null>(null);
 
-  // Carrega personagens com filtros server-side (search, series, events)
+  function getModifiedSinceDate() {
+    const today = new Date();
+    if (modifiedFilter === 'recent') {
+      const recentDate = new Date(today.setFullYear(today.getFullYear() - 2));
+      return recentDate.toISOString().split('T')[0];
+    }
+    return null;
+  }
+
   const loadCharacters = async () => {
-    const data = await fetchMarvelCharacters(search, seriesFilter, eventFilter);
-    setCharacters(data.data.results);
+    const modifiedSince = getModifiedSinceDate();
+    const data = await fetchMarvelCharacters(search, seriesFilter, modifiedSince);
+    let results = data.data.results;
+
+    if (seriesFilter) {
+      results = results.filter((char: any) => {
+        return char.series.items.some((serie: any) => {
+          const seriesId = serie.resourceURI.split('/').pop();
+          return seriesId === seriesFilter;
+        });
+      });
+    }
+
+    if (modifiedFilter === 'recent') {
+      results.sort((a: { modified: string | number | Date }, b: { modified: string | number | Date }) => {
+        if (!a.modified) return 1;
+        if (!b.modified) return -1;
+        return new Date(b.modified).getTime() - new Date(a.modified).getTime();
+      });
+    } else if (modifiedFilter === 'old') {
+      results.sort((a: { modified: string | number | Date }, b: { modified: string | number | Date }) => {
+        if (!a.modified) return 1;
+        if (!b.modified) return -1;
+        return new Date(a.modified).getTime() - new Date(b.modified).getTime();
+      });
+    }
+
+    setCharacters(results);
   };
 
   useEffect(() => {
     loadCharacters();
-  }, [search, seriesFilter, eventFilter]);
-
-  // Filtragem local por aparições
-  const filteredCharacters = appearanceFilter
-    ? characters.filter((c) => {
-        if (appearanceFilter === 'few') return c.comics.available <= 50;
-        if (appearanceFilter === 'mid') return c.comics.available > 50 && c.comics.available <= 200;
-        if (appearanceFilter === 'many') return c.comics.available > 200;
-        return true;
-      })
-    : characters;
+  }, [search, seriesFilter, modifiedFilter]);
 
   return (
-    <div className="p-6 bg-marvelBlack min-h-screen text-marvelWhite">
-      <div className="flex flex-col md:flex-row gap-4 mb-6">
-        <input
-          type="text"
-          placeholder="🔍 Buscar personagem"
-          className="flex-1 p-3 rounded-lg shadow-md bg-marvelWhite/10 text-marvelWhite placeholder-marvelWhite/70 focus:outline-none focus:ring-2 focus:ring-marvelRed"
-          onChange={(e) => setSearch(e.target.value)}
-          value={search}
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-black via-gray-900 to-marvelBlack text-marvelWhite select-none">
+      <header className="mb-8 mt-15 text-center px-8">
+        <h1 className="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-red-600 via-yellow-400 to-red-600 drop-shadow-lg">
+          Marvel
+        </h1>
+        <p className="mt-2 text-marvelWhite/80 italic tracking-wider">
+          Explore os heróis e vilões do Universo Marvel
+        </p>
+      </header>
+
+      <main className="flex-grow px-8">
+        <div className="flex flex-col md:flex-row gap-6 mb-10 max-w-6xl mx-auto">
+          <input
+            type="text"
+            placeholder="🔍 Buscar personagem"
+            className="flex-1 p-4 rounded-xl bg-gray-900/70 text-white placeholder-white focus:outline-none focus:ring-4 focus:ring-red-600 focus:ring-opacity-75 shadow-xl shadow-black/70 transition"
+            onChange={(e) => setSearch(e.target.value)}
+            value={search}
+          />
+
+          <select
+            className="p-4 rounded-xl bg-gray-900/70 text-white focus:outline-none focus:ring-4 focus:ring-red-600 focus:ring-opacity-75 shadow-xl shadow-black/70 transition"
+            onChange={(e) => setSeriesFilter(e.target.value || null)}
+            value={seriesFilter || ''}
+          >
+            <option className="text-black" value="">
+              Filtrar por Série
+            </option>
+            <option className="text-black" value="354">
+              Avengers
+            </option>
+            <option className="text-black" value="800">
+              X-Men
+            </option>
+            <option className="text-black" value="363">
+              Fantastic Four
+            </option>
+          </select>
+
+          <select
+            className="p-4 rounded-xl bg-gray-900/70 text-white focus:outline-none focus:ring-4 focus:ring-red-600 focus:ring-opacity-75 shadow-xl shadow-black/70 transition"
+            onChange={(e) => setModifiedFilter(e.target.value)}
+            value={modifiedFilter}
+          >
+            <option className="text-black" value="all">
+              Todos
+            </option>
+            <option className="text-black" value="recent">
+              Mais Recentes
+            </option>
+            <option className="text-black" value="old">
+              Mais Antigos
+            </option>
+          </select>
+        </div>
+
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 max-w-6xl mx-auto">
+          {characters.map((char: any) => (
+            <div
+              key={char.id}
+              onClick={() => setSelected(char)}
+              className="cursor-pointer transform transition duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-red-700/80 rounded-3xl"
+            >
+              <CharacterCard character={char} />
+            </div>
+          ))}
+        </div>
+      </main>
+
+      {selected && (
+        <CharacterModal
+          character={selected}
+          onClose={() => setSelected(null)}
         />
-        <select
-          className="p-3 rounded-lg shadow-md bg-marvelWhite/10 text-marvelWhite focus:outline-none focus:ring-2 focus:ring-marvelRed"
-          onChange={(e) => setSeriesFilter(e.target.value || null)}
-          value={seriesFilter || ''}
-        >
-          <option value="">Filtrar por Série</option>
-          <option value="354">Avengers</option>
-          <option value="9086">X-Men</option>
-          <option value="1842">Spider-Verse</option>
-          <option value="363">Fantastic Four</option>
-        </select>
+      )}
 
-        <select
-          className="p-3 rounded-lg shadow-md bg-marvelWhite/10 text-marvelWhite focus:outline-none focus:ring-2 focus:ring-marvelRed"
-          onChange={(e) => setEventFilter(e.target.value || null)}
-          value={eventFilter || ''}
-        >
-          <option value="">Filtrar por Evento</option>
-          <option value="116">Civil War</option>
-          <option value="233">Secret Invasion</option>
-          <option value="314">Infinity War</option>
-          <option value="240">House of M</option>
-        </select>
-
-        <select
-          className="p-3 rounded-lg shadow-md bg-marvelWhite/10 text-marvelWhite focus:outline-none focus:ring-2 focus:ring-marvelRed"
-          onChange={(e) => setAppearanceFilter(e.target.value || null)}
-          value={appearanceFilter || ''}
-        >
-          <option value="">Filtrar por Aparições</option>
-          <option value="few">Poucas (0-50)</option>
-          <option value="mid">Moderadas (51-200)</option>
-          <option value="many">Muitas (200+)</option>
-        </select>
-      </div>
-
-      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6">
-        {filteredCharacters.map((char) => (
-          <div key={char.id} onClick={() => setSelected(char)}>
-            <CharacterCard character={char} />
-          </div>
-        ))}
-      </div>
-
-      {selected && <CharacterModal character={selected} onClose={() => setSelected(null)} />}
+      <footer className="w-full py-6 mt-12 bg-[#0d0d0d] text-center text-sm text-marvelWhite/70 select-none">
+        <div className="max-w-6xl mx-auto px-8">
+          <p>&copy; {new Date().getFullYear()} Desenvolvido por Pedro Felipe.</p>
+          <p>
+            <a
+              href="https://github.com/pedrofelipeot/projeto-marvel"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline hover:text-red-500 transition-colors"
+            >
+              Meu GitHub
+            </a>
+          </p>
+        </div>
+      </footer>
     </div>
   );
 }

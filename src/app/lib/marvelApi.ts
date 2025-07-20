@@ -1,28 +1,23 @@
-// src/lib/marvelApi.ts
 import axios from 'axios';
 import md5 from 'md5';
 
 const baseUrl = 'https://gateway.marvel.com/v1/public';
 
-// Variáveis de ambiente para server-side
 const publicKey = process.env.MARVEL_PUBLIC_KEY!;
 const privateKey = process.env.MARVEL_PRIVATE_KEY!;
 export const useMock = process.env.USE_MOCK === 'true';
 
-console.log("🔎 USE_MOCK:", useMock); // Só aparece no terminal node.js
+console.log("🔎 USE_MOCK:", useMock); // Mantém o log original
 
-// Agora com suporte a filtros: nameStartsWith, seriesId, eventId
 export async function fetchMarvelCharacters(
   nameStartsWith?: string,
   seriesId?: string | null,
-  eventId?: string | null
+  modifiedSince?: string | null
 ) {
   if (useMock) {
     console.log("✅ Usando MOCK");
     const res = await import('../mocks/characters.json');
-    const all = res.default.data.results;
-
-    let filtered = all;
+    let filtered = res.default.data.results;
 
     if (nameStartsWith) {
       filtered = filtered.filter((c) =>
@@ -36,10 +31,8 @@ export async function fetchMarvelCharacters(
       );
     }
 
-    if (eventId) {
-      filtered = filtered.filter((c) =>
-        c.events?.items?.some((item: any) => item.resourceURI.includes(eventId))
-      );
+    if (modifiedSince) {
+      filtered = filtered.filter((c) => new Date(c.modified) >= new Date(modifiedSince));
     }
 
     return { data: { results: filtered.slice(0, 20) } };
@@ -50,7 +43,6 @@ export async function fetchMarvelCharacters(
   const ts = Date.now().toString();
   const hash = md5(ts + privateKey + publicKey);
 
-  // Monta os params da requisição, incluindo só se tiver valor
   const params: Record<string, any> = {
     ts,
     apikey: publicKey,
@@ -60,7 +52,7 @@ export async function fetchMarvelCharacters(
 
   if (nameStartsWith) params.nameStartsWith = nameStartsWith;
   if (seriesId) params.series = seriesId;
-  if (eventId) params.events = eventId;
+  if (modifiedSince) params.modifiedSince = modifiedSince;
 
   const response = await axios.get(`${baseUrl}/characters`, { params });
 
