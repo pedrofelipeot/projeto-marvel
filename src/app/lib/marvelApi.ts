@@ -1,24 +1,6 @@
-import axios from 'axios';
-import md5 from 'md5';
 import type { Character } from '../interface/character';
 
-const baseUrl = 'https://gateway.marvel.com/v1/public';
-
-const publicKey = process.env.MARVEL_PUBLIC_KEY!;
-const privateKey = process.env.MARVEL_PRIVATE_KEY!;
-export const useMock = process.env.USE_MOCK === 'true';
-
-console.log("🔎 USE_MOCK:", useMock);
-
-type ParamsType = {
-  ts: string;
-  apikey: string;
-  hash: string;
-  limit: number;
-  nameStartsWith?: string;
-  series?: string | null;
-  modifiedSince?: string | null;
-};
+export const useMock = process.env.NEXT_PUBLIC_USE_MOCK === 'true';
 
 export async function fetchMarvelCharacters(
   nameStartsWith?: string,
@@ -26,53 +8,55 @@ export async function fetchMarvelCharacters(
   modifiedSince?: string | null
 ): Promise<{ data: { results: Character[] } }> {
   if (useMock) {
-    console.log("✅ Usando MOCK");
-    const res = await import('../mocks/characters.json');
-    let filtered: Character[] = res.default.data.results;
+    console.log('✅ Usando MOCK');
 
-    if (nameStartsWith) {
-      filtered = filtered.filter((c) =>
-        c.name.toLowerCase().startsWith(nameStartsWith.toLowerCase())
-      );
+    try {
+      const res = await fetch('/mocks/characters.json');
+      if (!res.ok) throw new Error('Falha ao carregar mock JSON');
+      const json = await res.json();
+
+      let filtered: Character[] = json.data.results;
+
+      if (nameStartsWith) {
+        filtered = filtered.filter((c: Character) =>
+          c.name.toLowerCase().startsWith(nameStartsWith.toLowerCase())
+        );
+      }
+
+      if (seriesId) {
+        filtered = filtered.filter((c: Character) =>
+          c.series?.items?.some((item) => item.resourceURI.includes(seriesId))
+        );
+      }
+
+      if (modifiedSince) {
+        filtered = filtered.filter((c: Character) =>
+          new Date(c.modified) >= new Date(modifiedSince)
+        );
+      }
+
+      return {
+        data: {
+          results: filtered.slice(0, 20),
+        },
+      };
+    } catch (err) {
+      console.error('❌ Erro ao carregar mock:', err);
+      return { data: { results: [] } };
     }
-
-    if (seriesId) {
-      filtered = filtered.filter((c) =>
-        c.series?.items?.some((item) => item.resourceURI.includes(seriesId))
-      );
-    }
-
-    if (modifiedSince) {
-      filtered = filtered.filter((c) => new Date(c.modified) >= new Date(modifiedSince));
-    }
-
-    return {
-      data: {
-        results: filtered.slice(0, 20),
-      },
-    };
   }
 
-  console.log("🔴 Usando API REAL");
+  // Chama API interna do Next.js (backend)
+  const query = new URLSearchParams();
+  if (nameStartsWith) query.append('nameStartsWith', nameStartsWith);
+  if (seriesId) query.append('seriesId', seriesId ?? '');
+  if (modifiedSince) query.append('modifiedSince', modifiedSince ?? '');
 
-  const ts = Date.now().toString();
-  const hash = md5(ts + privateKey + publicKey);
+  const response = await fetch(`/api/marvel-characters?${query.toString()}`);
 
-  const params: ParamsType = {
-    ts,
-    apikey: publicKey,
-    hash,
-    limit: 20,
-  };
+  if (!response.ok) {
+    throw new Error('Erro na API interna');
+  }
 
-  if (nameStartsWith) params.nameStartsWith = nameStartsWith;
-  if (seriesId) params.series = seriesId;
-  if (modifiedSince) params.modifiedSince = modifiedSince;
-
-  const response = await axios.get<{ data: { results: Character[] } }>(
-    `${baseUrl}/characters`,
-    { params }
-  );
-
-  return response.data;
+  return response.json();
 }
