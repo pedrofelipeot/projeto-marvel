@@ -10,6 +10,16 @@ export const useMock = process.env.USE_MOCK === 'true';
 
 console.log("🔎 USE_MOCK:", useMock);
 
+type ParamsType = {
+  ts: string;
+  apikey: string;
+  hash: string;
+  limit: number;
+  nameStartsWith?: string;
+  series?: string | null;
+  modifiedSince?: string | null;
+};
+
 export async function fetchMarvelCharacters(
   nameStartsWith?: string,
   seriesId?: string | null,
@@ -48,7 +58,7 @@ export async function fetchMarvelCharacters(
   const ts = Date.now().toString();
   const hash = md5(ts + privateKey + publicKey);
 
-  const params: Record<string, any> = {
+  const params: ParamsType = {
     ts,
     apikey: publicKey,
     hash,

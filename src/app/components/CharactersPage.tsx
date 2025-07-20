@@ -13,14 +13,14 @@ export default function CharactersPage() {
   const [modifiedFilter, setModifiedFilter] = useState<string>('all');
   const [selected, setSelected] = useState<Character | null>(null);
 
-  function getModifiedSinceDate() {
+  const getModifiedSinceDate = useCallback(() => {
     const today = new Date();
     if (modifiedFilter === 'recent') {
       const recentDate = new Date(today.setFullYear(today.getFullYear() - 2));
       return recentDate.toISOString().split('T')[0];
     }
     return null;
-  }
+  }, [modifiedFilter]);
 
   const loadCharacters = useCallback(async () => {
     const modifiedSince = getModifiedSinceDate();
@@ -51,7 +51,7 @@ export default function CharactersPage() {
     }
 
     setCharacters(results);
-  }, [search, seriesFilter, modifiedFilter]);
+  }, [search, seriesFilter, modifiedFilter, getModifiedSinceDate]);
 
   useEffect(() => {
     loadCharacters();
@@ -68,8 +68,8 @@ export default function CharactersPage() {
         </p>
       </header>
 
-      <main className="flex-grow px-8">
-        <div className="flex flex-col md:flex-row gap-6 mb-10 max-w-6xl mx-auto">
+      <main className="flex-grow px-4 sm:px-8">
+        <div className="flex flex-col md:flex-row gap-4 md:gap-6 mb-10 max-w-6xl mx-auto">
           <input
             type="text"
             placeholder="🔍 Buscar personagem"
@@ -114,12 +114,23 @@ export default function CharactersPage() {
           </select>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 max-w-6xl mx-auto">
+        {/* Grid responsivo com cards que mantêm proporção e largura máxima */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 max-w-6xl mx-auto px-2 sm:px-4">
           {characters.map((char) => (
             <div
               key={char.id}
               onClick={() => setSelected(char)}
-              className="cursor-pointer transform transition duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-red-700/80 rounded-3xl"
+              className="
+                cursor-pointer
+                rounded-3xl
+                shadow-lg
+                transition-shadow duration-300
+                hover:shadow-2xl hover:shadow-red-700/80
+                w-full
+                max-w-xs
+                mx-auto
+                aspect-[3/4]
+              "
             >
               <CharacterCard character={char} />
             </div>
