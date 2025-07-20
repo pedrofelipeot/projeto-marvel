@@ -1,15 +1,17 @@
 'use client';
+
 import { useEffect, useState } from 'react';
 import { fetchMarvelCharacters } from '../lib/marvelApi';
 import CharacterCard from './CharacterCard';
 import CharacterModal from './CharacterModal';
+import type { Character } from '../interface/character';
 
 export default function CharactersPage() {
-  const [characters, setCharacters] = useState<any[]>([]);
+  const [characters, setCharacters] = useState<Character[]>([]);
   const [search, setSearch] = useState('');
   const [seriesFilter, setSeriesFilter] = useState<string | null>(null);
   const [modifiedFilter, setModifiedFilter] = useState<string>('all');
-  const [selected, setSelected] = useState<any | null>(null);
+  const [selected, setSelected] = useState<Character | null>(null);
 
   function getModifiedSinceDate() {
     const today = new Date();
@@ -23,11 +25,11 @@ export default function CharactersPage() {
   const loadCharacters = async () => {
     const modifiedSince = getModifiedSinceDate();
     const data = await fetchMarvelCharacters(search, seriesFilter, modifiedSince);
-    let results = data.data.results;
+    let results: Character[] = data.data.results;
 
     if (seriesFilter) {
-      results = results.filter((char: any) => {
-        return char.series.items.some((serie: any) => {
+      results = results.filter((char) => {
+        return char.series?.items?.some((serie) => {
           const seriesId = serie.resourceURI.split('/').pop();
           return seriesId === seriesFilter;
         });
@@ -35,13 +37,13 @@ export default function CharactersPage() {
     }
 
     if (modifiedFilter === 'recent') {
-      results.sort((a: { modified: string | number | Date }, b: { modified: string | number | Date }) => {
+      results.sort((a, b) => {
         if (!a.modified) return 1;
         if (!b.modified) return -1;
         return new Date(b.modified).getTime() - new Date(a.modified).getTime();
       });
     } else if (modifiedFilter === 'old') {
-      results.sort((a: { modified: string | number | Date }, b: { modified: string | number | Date }) => {
+      results.sort((a, b) => {
         if (!a.modified) return 1;
         if (!b.modified) return -1;
         return new Date(a.modified).getTime() - new Date(b.modified).getTime();
@@ -57,7 +59,7 @@ export default function CharactersPage() {
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-black via-gray-900 to-marvelBlack text-marvelWhite select-none">
-      <header className="mb-8 mt-15 text-center px-8">
+      <header className="mb-8 mt-16 text-center px-8">
         <h1 className="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-red-600 via-yellow-400 to-red-600 drop-shadow-lg">
           Marvel
         </h1>
@@ -113,7 +115,7 @@ export default function CharactersPage() {
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 max-w-6xl mx-auto">
-          {characters.map((char: any) => (
+          {characters.map((char) => (
             <div
               key={char.id}
               onClick={() => setSelected(char)}

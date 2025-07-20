@@ -1,4 +1,6 @@
-export default function CharacterCard({ character }: { character: any }) {
+import type { Character } from '../interface/character';
+
+export default function CharacterCard({ character }: { character: Character }) {
   const { name, thumbnail } = character;
 
   const imageUrl = thumbnail.path.endsWith('.jpg') || thumbnail.path.endsWith('.png')

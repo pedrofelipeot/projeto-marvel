@@ -1,4 +1,6 @@
-export default function CharacterModal({ character, onClose }: { character: any; onClose: () => void }) {
+import type { Character } from '../interface/character';
+
+export default function CharacterModal({ character, onClose }: { character: Character; onClose: () => void }) {
   const { name, thumbnail, description } = character;
 
   const imageUrl = thumbnail.path.endsWith('.jpg') || thumbnail.path.endsWith('.png')
@@ -13,7 +15,7 @@ export default function CharacterModal({ character, onClose }: { character: any;
       <div
         onClick={(e) => e.stopPropagation()}
         className="bg-gradient-to-tr from-red-900 via-black to-black pt-12 px-15 pb-6
- rounded-3xl shadow-2xl max-w-md w-full relative border-4 border-yellow-400 animate-fadeIn"
+        rounded-3xl shadow-2xl max-w-md w-full relative border-4 border-yellow-400 animate-fadeIn"
       >
         <button
           onClick={onClose}
